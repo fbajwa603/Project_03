@@ -1,23 +1,23 @@
-1. Purpose
+# Project 3 – Architecture Overview
 
+## 1. Purpose
 This project extends the Library Management System from Project 2 by adding:
 
-Inheritance
+- Inheritance
+- Abstract Base Classes (ABC)
+- Polymorphism
+- Composition
+- A coordinating class called LibrarySystem
 
-Abstract Base Classes
+The goal is to enhance the original system with advanced OOP design.
 
-Polymorphism
+---
 
-Composition
+## 2. Inheritance Hierarchy
 
-A coordinating class called LibrarySystem
+The inheritance structure focuses on library items.
 
-The goal is to enhance the original system with advanced object-oriented design.
-
-2. Inheritance Hierarchy
-
-The inheritance structure centers around library items.
-
+```
 AbstractLibraryItem (ABC)
         |
         v
@@ -26,137 +26,123 @@ AbstractLibraryItem (ABC)
    ---------------------------------------
    |        |         |                 |
   Book    Journal     DVD             EBook
-
+```
 
 Why this hierarchy was chosen:
 
-Library items naturally differ in behavior (loan rules, type).
+- Item types naturally differ in behavior (loan rules, type).
+- These differences make them ideal for an "is-a" relationship.
+- Cleanly extends Project 2 without rewriting other classes.
 
-These differences make an “is-a” relationship appropriate.
+---
 
-This design fits the Project 3 requirement to refactor part of the system into a meaningful hierarchy.
-
-3. Abstract Base Class
+## 3. Abstract Base Class
 
 The abstract base class is:
 
-AbstractLibraryItem
+- AbstractLibraryItem
 
-It defines required methods that every item subclass must implement:
+It requires all subclasses to implement:
 
-get_item_type()
+- get_item_type()
+- calculate_due_date(checkout_date, user_role)
 
-calculate_due_date(checkout_date, user_role)
+This ensures consistency and demonstrates use of Python’s abc module.
 
-This ensures consistent interfaces and demonstrates the use of Python’s abc module.
+---
 
-4. Polymorphism
+## 4. Polymorphism
 
-Each item subclass overrides inherited methods to provide type-specific behavior.
+Each item subclass overrides inherited behaviors.
 
-Examples:
+Examples of polymorphic behavior:
 
-Books follow the default due-date rule (14 or 28 days).
+- Book: Standard 14/28-day due date
+- Journal: Shorter 7/14-day due date
+- DVD: Always 7 days
+- EBook: Same-day digital due date (never overdue)
 
-Journals have shorter loan periods (7 or 14 days).
+Also, each subclass returns its own string via get_item_type().
 
-DVDs always use a 7-day loan period.
+Calling the same method on each subclass produces different results, fulfilling the polymorphism requirement.
 
-EBooks are due the same day and never become overdue.
+---
 
-Calling calculate_due_date() on different item types produces different results, even though the method name is the same.
-This demonstrates polymorphism.
+## 5. Composition
 
-Each subclass also overrides get_item_type().
-
-5. Composition
-
-A new class, LibrarySystem, manages system-level interactions.
+A new class, LibrarySystem, demonstrates composition.
 
 LibrarySystem has:
 
-a Catalog
+- a Catalog
+- a collection of Users
+- a collection of Loans
+- a collection of Holds
 
-a collection of Users
+These are “has-a” relationships.
 
-a collection of Loans
+LibrarySystem coordinates:
 
-a collection of Holds
+- item checkout
+- item return
+- due-date calculation (via polymorphism)
+- user management
+- hold management
 
-These are “has-a” relationships, demonstrating composition.
+This shows composition clearly and satisfies the project requirement.
 
-LibrarySystem manages:
+---
 
-checking out items
-
-returning items
-
-due-date calculations (delegated polymorphically)
-
-holds
-
-catalog lookups
-
-This class ties the entire system together without using inheritance.
-
-6. Integration With Project 2
+## 6. Integration With Project 2
 
 Project 2 classes remain unchanged:
 
-User
+- User
+- Loan
+- Hold
+- Catalog
 
-Loan
+These classes now work with the polymorphic item types and the LibrarySystem controller.
 
-Hold
+This follows the instruction to extend rather than rewrite Project 2.
 
-Catalog
+---
 
-They work with the new system by using the polymorphic behavior of the updated item classes.
-
-This follows the requirement to extend the previous project rather than replace it.
-
-7. Demonstration
+## 7. Demonstration
 
 The file demo_project3.py demonstrates:
 
-inheritance through item creation
+- inheritance through creation of Book, Journal, DVD, and EBook
+- polymorphism through calculate_due_date() and get_item_type()
+- abstract class behavior
+- composition through LibrarySystem
+- a complete checkout workflow
 
-polymorphism via calculate_due_date() and get_item_type()
+The output is formatted in a clean section-based layout similar to the sample in the project instructions.
 
-abstract class rules
+---
 
-composition (LibrarySystem coordinating actions)
-
-a working checkout workflow
-
-The formatted output matches the sample style from the PDF.
-
-8. Testing
+## 8. Testing
 
 The test file test_project3.py verifies:
 
-ABC cannot be instantiated
-
-subclasses correctly inherit from LibraryItem and AbstractLibraryItem
-
-polymorphic due-date calculations
-
-composition features of LibrarySystem
+- the abstract class cannot be instantiated
+- subclasses correctly inherit from LibraryItem and AbstractLibraryItem
+- polymorphic due-date calculations
+- composition checkout behavior in LibrarySystem
 
 All tests pass.
 
-9. Summary
+---
 
-This architecture:
+## 9. Summary
 
-Refactors part of the system into an inheritance hierarchy
+This design:
 
-Uses an abstract base class to enforce interfaces
+- Adds a meaningful inheritance hierarchy
+- Uses an abstract base class to enforce structure
+- Demonstrates polymorphism clearly
+- Implements composition through LibrarySystem
+- Integrates with all Project 2 features
+- Meets all requirements of the Project 3 specification
 
-Demonstrates polymorphism clearly
-
-Adds composition with LibrarySystem
-
-Fully integrates with all Project 2 functionality
-
-Meets every requirement from the Project 3 PDF
