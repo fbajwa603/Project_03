@@ -1,4 +1,4 @@
-# Library Management System – Project 3 (Short README)
+# Library Management System – Project 3 
 
 ## Overview
 This project extends the Project 2 Library System by adding:
